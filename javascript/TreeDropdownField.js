@@ -61,7 +61,8 @@
 			getTreeConfig: function() {
 				return {
 					'core': {
-						'initially_open': ['record-0']
+						'initially_open': ['record-0'],
+						'animation': 0
 					},
 					'html_data': {
 						// TODO Hack to avoid ajax load on init, see http://code.google.com/p/jstree/issues/detail?id=911
@@ -77,7 +78,7 @@
 						"select_limit" : 1,
 						'initially_select': [this.getPanel().find('.current').attr('id')]
 					},
-					'plugins': ['themes', 'html_data', 'ui']
+					'plugins': ['html_data', 'ui', 'themeroller']
 				};
 			}
 		});
