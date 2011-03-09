@@ -207,8 +207,8 @@
 				this._super($.isArray(val) ? val.join(',') : val);
 			},
 			setTitle: function(title) {
-				this._super($.isArray(title) : title.join(', ') : val);
+				this._super($.isArray(title) ? title.join(', ') : title);
 			}
-		})
+		});
 	});
 }(jQuery));
