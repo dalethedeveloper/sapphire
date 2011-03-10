@@ -350,7 +350,9 @@
 				if(this._get_settings().core.rtl) {
 					this.get_container().addClass("jstree-rtl").css("direction", "rtl");
 				}
-				this.get_container().html("<ul><li class='jstree-last jstree-leaf'><ins>&#160;</ins><a class='jstree-loading' href='#'><ins class='jstree-icon'>&#160;</ins>" + this._get_string("loading") + "</a></li></ul>");
+				if(!this.get_container().find('ul').length) {
+					this.get_container().html("<ul><li class='jstree-last jstree-leaf'><ins>&#160;</ins><a class='jstree-loading' href='#'><ins class='jstree-icon'>&#160;</ins>" + this._get_string("loading") + "</a></li></ul>");
+				}
 				this.data.core.li_height = this.get_container_ul().find("li.jstree-closed, li.jstree-leaf").eq(0).height() || 18;
 
 				this.get_container()
@@ -4024,6 +4026,8 @@
 					else { obj.data("jstree-is-loading",true); }
 				}
 				switch(!0) {
+					// If data is a function, use it to retrieve the data (and disregard the ajax settings).
+					// Can be used to implement own ajax callbacks.
 					case ($.isFunction(s.data)):
 						s.data.call(this, obj, $.proxy(function (d) {
 							if(d && d !== "" && d.toString && d.toString().replace(/^[\s\n]+$/,"") !== "") {
@@ -4052,7 +4056,9 @@
 							}
 						}, this));
 						break;
-					case (!s.data && !s.ajax):
+					// If no data or ajax are set, or ajax is set without existing data (on the root node),
+					// reload original (cleaned up) markup (see init())
+					case ((!s.data && !s.ajax) || (!s.data && !!s.ajax && (!obj || obj === -1))):
 						if(!obj || obj == -1) {
 							this.get_container()
 								.children("ul").empty()
@@ -4063,6 +4069,8 @@
 						}
 						if(s_call) { s_call.call(this); }
 						break;
+					// If existing data is available without ajax, or data is available with ajax on the root node,
+					// load this data string into the container (or create an empty tree)
 					case (!!s.data && !s.ajax) || (!!s.data && !!s.ajax && (!obj || obj === -1)):
 						if(!obj || obj == -1) {
 							d = $(s.data);
@@ -4075,6 +4083,8 @@
 						}
 						if(s_call) { s_call.call(this); }
 						break;
+					// If ajax is required without existing data, or both data and ajax are set on the root node,
+					// get data via the ajax call
 					case (!s.data && !!s.ajax) || (!!s.data && !!s.ajax && obj && obj !== -1):
 						obj = this._get_node(obj);
 						error_func = function (x, t, e) {
