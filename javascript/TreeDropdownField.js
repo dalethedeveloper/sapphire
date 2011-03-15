@@ -113,8 +113,10 @@
 						"select_limit" : 1,
 						'initially_select': [this.getPanel().find('.current').attr('id')]
 					},
+					'themes': {
+						'theme': 'apple'
+					},
 					'plugins': ['html_data', 'ui', 'themes']
-					// 'plugins': ['html_data', 'ui', 'themeroller']
 				};
 			},
 			/**
