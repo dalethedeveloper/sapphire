@@ -117,6 +117,7 @@
 						'theme': 'apple'
 					},
 					'plugins': ['html_data', 'ui', 'themes']
+					// 'plugins': ['html_data', 'ui', 'themeroller']
 				};
 			},
 			/**
